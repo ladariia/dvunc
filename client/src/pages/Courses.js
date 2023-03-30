@@ -10,7 +10,7 @@ const Courses = observer(() => {
     const { course } = useContext(Context)
     useEffect(() => {
         fetchTypes().then(data => course.setTypes(data))
-        fetchCourses(null).then(data => course.setCourses(data))
+        fetchCourses(   ).then(data => course.setCourses(data))
     }, [])
     return (
         <Container>

@@ -7,36 +7,65 @@ import { observer } from 'mobx-react-lite';
 const CreateCourse = observer(({ show, onHide }) => {
     const { course } = useContext(Context)
     const [module, setModule] = useState([])
+    const [shedule, setShedule] = useState([])
+    const [subject, setSubject] = useState([])
     const [name, setName] = useState('')
-    const [duration, setDuration] = useState()
-    const [price, setPrice] = useState()
-
-    const changeModule = (key, value, module_id) => {
-        setModule(module.map(i => i.module_id === module_id ? { ...i, [key]: value } : i))
-    }
-
-    const addCourse = () => {
-        const formData = new FormData()
-        formData.append('course_name', name)
-        formData.append('course_price', `${price}`)
-        formData.append('course_duration', `${duration}`)
-        formData.append('typeTypeId', course.selectedType.type_id)
-        formData.append('formatFormatId', course.selectedFormat.format_id)
-        formData.append('course_module', JSON.stringify(module))
-        createCourse(formData).then(data => onHide())
-    }
+    const [duration, setDuration] = useState(0)
+    const [price, setPrice] = useState(0)
 
     useEffect(() => {
         fetchTypes().then(data => course.setTypes(data))
         fetchFormats().then(data => course.setFormats(data))
     }, [])
 
-    const addModule = () => {
-        setModule([...module, { module_id: Date.now(), module_name: '' }])
+    const changeModule = (key, value, module_id) => {
+        setModule(module.map(i => i.module_id === module_id ? { ...i, [key]: value } : i))
+    }
+
+    const changeShedule = (key, value, shedule_id) => {
+        setShedule(shedule.map(i => i.shedule_id === shedule_id ? { ...i, [key]: value } : i))
+    }
+
+    const changeSubject = (key, value, subject_id) => {
+        setSubject(subject.map(i => i.subject_id === subject_id ? { ...i, [key]: value } : i))
     }
 
     const removeModule = (module_id) => {
         setModule(module.filter(i => i.module_id !== module_id))
+    }
+
+    const removeShedule = (shedule_id) => {
+        setShedule(shedule.filter(i => i.shedule_id !== shedule_id))
+    }
+
+    const removeSubject = (subject_id) => {
+        setSubject(subject.filter(i => i.subject_id !== subject_id))
+    }
+
+    const addModule = () => {
+        setModule([...module, { module_id: Date.now(), module_name: '' }])
+    }
+
+    const addShedule = () => {
+        setShedule([...shedule, { shedule_id: Date.now(), shedule_dateofstart: '', shedule_dateoffinish: '' }])
+    }
+
+    const addSubject = () => {
+        setSubject([...subject, { subject_id: Date.now(), subject_name: '' }])
+    }
+
+
+    const addCourse = () => {
+        const formData = new FormData()
+        formData.append('course_name', name)
+        formData.append('typeTypeId', course.selectedType.type_id)
+        formData.append('course_duration', `${duration}`)
+        formData.append('formatFormatId', course.selectedFormat.format_id)
+        formData.append('course_price', `${price}`)
+        formData.append('course_module', JSON.stringify(module))
+        formData.append('course_shedule', JSON.stringify(shedule))
+        formData.append('module_subject', JSON.stringify(subject))
+        createCourse(formData).then(data => onHide())
     }
 
     return (
@@ -79,14 +108,14 @@ const CreateCourse = observer(({ show, onHide }) => {
                 />
                 <Form.Control
                     value={duration}
-                    onChange={e => setDuration(e.target.value)}
+                    onChange={e => setDuration(Number(e.target.value))}
                     className="mt-2"
                     placeholder="Введите длительность"
                     type="number"
                 />
                 <Form.Control
                     value={price}
-                    onChange={e => setPrice(e.target.value)}
+                    onChange={e => setPrice(Number(e.target.value))}
                     className="mt-2"
                     placeholder="Введите стоимость"
                     type="number"
@@ -95,12 +124,12 @@ const CreateCourse = observer(({ show, onHide }) => {
                 <Button onClick={addModule} variant="outline-dark">Добавить новый модуль</Button>
                 {
                     module.map(i =>
-                        <Row className="mt-2" key={i.module_id}>
+                        <Row className="mt-4" key={i.module_id}>
                             <Col md={4}>
                                 <Form.Control
                                     value={i.module_name}
                                     onChange={(e) => changeModule('module_name', e.target.value, i.module_id)}
-                                    placeholder="Введите название"
+                                    placeholder="Название"
                                 />
                             </Col>
                             <Col>
@@ -108,17 +137,57 @@ const CreateCourse = observer(({ show, onHide }) => {
                                     Удалить
                                 </Button>
                             </Col>
+                            <Col>
+                                <Button onClick={addSubject} variant="outline-dark">+</Button>
+                                {
+                                    subject.map(i =>
+                                        <div key={i.subject_id}>
+                                            <Form.Control
+                                                value={i.subject_name}
+                                                onChange={(e) => changeSubject('subject_name', e.target.value, i.subject_id)}
+                                                placeholder="Название"
+                                            />
+                                            <Button onClick={() => removeSubject(i.subject_id)} variant="outline-dark">-</Button>
+                                        </div>
+                                    )
+                                }
+                            </Col>
                         </Row>
                     )
                 }
                 <hr />
-                <Button variant="outline-dark">Добавить расписание</Button>
+                <Button onClick={addShedule} variant="outline-dark">Добавить расписание</Button>
+                {
+                    shedule.map(i =>
+                        <Row className="mt-2" key={i.shedule_id}>
+                            <Col md={4}>
+                                <Form.Control
+                                    value={i.shedule_dateofstart}
+                                    onChange={(e) => changeShedule('shedule_dateofstart', e.target.value, i.shedule_id)}
+                                    placeholder="Введите дату старта"
+                                />
+                            </Col>
+                            <Col md={4}>
+                                <Form.Control
+                                    value={i.shedule_dateoffinish}
+                                    onChange={(e) => changeShedule('shedule_dateoffinish', e.target.value, i.shedule_id)}
+                                    placeholder="Введите дату окончания"
+                                />
+                            </Col>
+                            <Col>
+                                <Button onClick={() => removeShedule(i.shedule_id)} variant={'outline-danger'}>
+                                    Удалить
+                                </Button>
+                            </Col>
+                        </Row>
+                    )
+                }
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={onHide}>Закрыть</Button>
                 <Button onClick={addCourse}>Добавить</Button>
             </Modal.Footer>
-        </Modal>
+        </Modal >
     );
 });
 
