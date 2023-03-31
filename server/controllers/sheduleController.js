@@ -11,6 +11,18 @@ class SheduleController {
         const shedules = await Shedule.findAll()
         return res.json(shedules)
     }
+
+    /* async getOne(req, res) {
+        const shedules = await Shedule.findAll(
+            {
+                where: { courseCourseId: 1 },
+                limit: 1,
+                order: [['shedule_dateofstart', 'ASC']]
+            },
+        )
+        return res.json(shedules)
+    } */
+
     async delete(req, res) {
         const { shedule_id } = req.body
         const del = await Shedule.destroy({ where: { shedule_id } })

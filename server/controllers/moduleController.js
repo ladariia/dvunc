@@ -25,7 +25,9 @@ class ModuleController {
     }
 
     async get(req, res) {
-        const modules = await Module.findAll()
+        const modules = await Module.findAll({
+            include: [{ model: Subject }]
+        })
         return res.json(modules)
     }
 

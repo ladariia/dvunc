@@ -1,5 +1,6 @@
 const sequelize = require('../db')
 const { DataTypes } = require('sequelize')
+const moment = require('moment')
 
 const User = sequelize.define('user', {
     user_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -21,8 +22,18 @@ const Type = sequelize.define('type', {
 
 const Shedule = sequelize.define('shedule', {
     shedule_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    shedule_dateofstart: { type: DataTypes.DATEONLY },
-    shedule_dateoffinish: { type: DataTypes.DATEONLY }
+    shedule_dateofstart: {
+        type: DataTypes.DATEONLY,
+        get: function () {
+            return moment.utc(this.getDataValue('shedule_dateofstart')).format('DD.MM.YYYY');
+        }
+    },
+    shedule_dateoffinish: {
+        type: DataTypes.DATEONLY,
+        get: function () {
+            return moment.utc(this.getDataValue('shedule_dateoffinish')).format('DD.MM.YYYY');
+        }
+    }
 })
 
 const Format = sequelize.define('format', {

@@ -1,4 +1,4 @@
-const { Type } = require('../models/models.js')
+const { Type, Course } = require('../models/models.js')
 
 class TypeController {
     async create(req, res) {

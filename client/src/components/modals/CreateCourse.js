@@ -140,11 +140,11 @@ const CreateCourse = observer(({ show, onHide }) => {
                             <Col>
                                 <Button onClick={addSubject} variant="outline-dark">+</Button>
                                 {
-                                    subject.map(i =>
-                                        <div key={i.subject_id}>
+                                    subject.map(j =>
+                                        <div key={j.subject_id}>
                                             <Form.Control
-                                                value={i.subject_name}
-                                                onChange={(e) => changeSubject('subject_name', e.target.value, i.subject_id)}
+                                                value={j.subject_name}
+                                                onChange={(e) => changeSubject('subject_name', e.target.value, j.subject_id)}
                                                 placeholder="Название"
                                             />
                                             <Button onClick={() => removeSubject(i.subject_id)} variant="outline-dark">-</Button>
@@ -165,6 +165,7 @@ const CreateCourse = observer(({ show, onHide }) => {
                                     value={i.shedule_dateofstart}
                                     onChange={(e) => changeShedule('shedule_dateofstart', e.target.value, i.shedule_id)}
                                     placeholder="Введите дату старта"
+                                    type="date"
                                 />
                             </Col>
                             <Col md={4}>
@@ -172,6 +173,7 @@ const CreateCourse = observer(({ show, onHide }) => {
                                     value={i.shedule_dateoffinish}
                                     onChange={(e) => changeShedule('shedule_dateoffinish', e.target.value, i.shedule_id)}
                                     placeholder="Введите дату окончания"
+                                    type="date"
                                 />
                             </Col>
                             <Col>

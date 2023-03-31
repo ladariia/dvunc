@@ -10,10 +10,10 @@ export const fetchFormats = async () => {
     return data
 }
 
-export const fetchCourses = async (type_id) => {
+export const fetchCourses = async (typeTypeId) => {
     const { data } = await $host.get('api/course', {
         params: {
-            type_id
+            typeTypeId
         }
     })
     return data

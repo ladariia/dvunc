@@ -10,17 +10,24 @@ const Courses = observer(() => {
     const { course } = useContext(Context)
     useEffect(() => {
         fetchTypes().then(data => course.setTypes(data))
-        fetchCourses(   ).then(data => course.setCourses(data))
+        fetchCourses(null).then(data => { course.setCourses(data) })
     }, [])
+
+    useEffect(() => {
+        fetchCourses(course.selectedType.type_id).then(data => {
+            course.setCourses(data)
+        })
+    }, [course.selectedType])
+
     return (
         <Container>
-            <Row className="mt-2">
+            <Row className="mt-4">
                 <Col md={2}>
                     <TypeBar />
                 </Col>
-            </Row>
-            <Row className="mt-2">
-                <CourseList />
+                <Col md={10}>
+                    <CourseList />
+                </Col>
             </Row>
         </Container>
     );

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { fetchCourse } from '../http/courseAPI';
 
 const CoursePage = () => {
-    const [course, setCourse] = useState({ course_module: [], course_shedule: [] })
+    const [course, setCourse] = useState({ course_module: [], course_shedule: [], format: [], type: [], subjects: [] })
     const { course_id } = useParams()
     useEffect(() => {
         fetchCourse(course_id).then(data => setCourse(data))
@@ -12,7 +12,7 @@ const CoursePage = () => {
     return (
         <Container>
             <Row style={{ marginTop: 200 }}>
-                <Col md={2}>type</Col>
+                <Col md={2}>{course.type.type_name}</Col>
             </Row>
             <Row>
                 <Col md={12}>
@@ -20,13 +20,13 @@ const CoursePage = () => {
                 </Col>
             </Row>
             <Row>
-                <Col md={2}>
+                {/* <Col md={2}>
                     <Button variant="dark">Подать заявку</Button>
-                </Col>
-                <Col md={2}>close date</Col>
+                </Col> */}
+                {/* <Col md={2}>close date</Col> */}
             </Row>
             <Row style={{ marginTop: 50 }}>
-                <Col md={3}>format</Col>
+                <Col md={3}>{course.format.format_name}</Col>
                 <Col md={3}>{course.course_price} рублей</Col>
                 <Col md={3}>{course.course_duration} часов</Col>
                 <Col md={3}>
@@ -42,7 +42,18 @@ const CoursePage = () => {
                     <h2 style={{ marginBottom: 50 }}>План программы</h2>
                     {course.course_module.map(module =>
                         <Row key={module.module_id} >
-                            <h3 style={{ paddingLeft: 200 }}>{module.module_name}</h3>
+                            <Col md={6}>
+                                <h3 style={{ paddingLeft: 200 }}>{module.module_name}</h3>
+                            </Col>
+                            <Col md={6}>
+                                <ul>
+                                    {module.subjects.map(subject =>
+                                        <li key={subject.subject_id}>
+                                            <p>{subject.subject_name}</p>
+                                        </li>
+                                    )}
+                                </ul>
+                            </Col>
                         </Row>
                     )}
                 </Card>
