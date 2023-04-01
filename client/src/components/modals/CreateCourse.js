@@ -100,19 +100,20 @@ const CreateCourse = observer(({ show, onHide }) => {
                         </Dropdown.Menu>
                     </Dropdown.Toggle>
                 </Dropdown>
+                <p className="mt-2 mb-1">Введите название</p>
                 <Form.Control
                     value={name}
                     onChange={e => setName(e.target.value)}
-                    className="mt-2"
                     placeholder="Введите название "
                 />
+                <p className="mt-2 mb-1"> Введите длительность</p>
                 <Form.Control
                     value={duration}
                     onChange={e => setDuration(Number(e.target.value))}
-                    className="mt-2"
                     placeholder="Введите длительность"
                     type="number"
                 />
+                <p className="mt-2 mb-1">Введите стоимость</p>
                 <Form.Control
                     value={price}
                     onChange={e => setPrice(Number(e.target.value))}
@@ -124,7 +125,7 @@ const CreateCourse = observer(({ show, onHide }) => {
                 <Button onClick={addModule} variant="outline-dark">Добавить новый модуль</Button>
                 {
                     module.map(i =>
-                        <Row className="mt-4" key={i.module_id}>
+                        <Row className="mt-2" key={i.module_id}>
                             <Col md={4}>
                                 <Form.Control
                                     value={i.module_name}
@@ -137,7 +138,7 @@ const CreateCourse = observer(({ show, onHide }) => {
                                     Удалить
                                 </Button>
                             </Col>
-                            <Col>
+                            {/* <Col>
                                 <Button onClick={addSubject} variant="outline-dark">+</Button>
                                 {
                                     subject.map(j =>
@@ -151,7 +152,7 @@ const CreateCourse = observer(({ show, onHide }) => {
                                         </div>
                                     )
                                 }
-                            </Col>
+                            </Col> */}
                         </Row>
                     )
                 }

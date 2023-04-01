@@ -5,22 +5,20 @@ class CourseController {
     async create(req, res, next) {
         try {
             let { course_name, typeTypeId, course_duration, course_shedule, formatFormatId, course_price, course_module, module_subject } = req.body //из тела запроса извлекаем название типа
+            const candidate = await Course.findOne({ where: { course_name } })
+            if (candidate) {
+                return next(ApiError.badRequest('Курс с таким названием уже существует'))
+            }
             const course = await Course.create({ course_name, typeTypeId, course_duration, formatFormatId, course_price })
 
-            if (course_module && module_subject) {
+            if (course_module) {
                 course_module = JSON.parse(course_module)
-                module_subject = JSON.parse(module_subject)
                 course_module.forEach((i) => {
                     Module.create({
                         module_name: i.module_name,
                         courseCourseId: course.course_id,
                     })
-                    module_subject.forEach((j) => {
-                        Subject.create({
-                            subject_name: j.subject_name
-                        })
-                        i.addSubject(j)
-                    })
+                    //i.addSubject(j)
                 })
             }
 
