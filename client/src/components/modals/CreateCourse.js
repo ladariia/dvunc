@@ -26,10 +26,6 @@ const CreateCourse = observer(({ show, onHide }) => {
         setShedule(shedule.map(i => i.shedule_id === shedule_id ? { ...i, [key]: value } : i))
     }
 
-    const changeSubject = (key, value, subject_id) => {
-        setSubject(subject.map(i => i.subject_id === subject_id ? { ...i, [key]: value } : i))
-    }
-
     const removeModule = (module_id) => {
         setModule(module.filter(i => i.module_id !== module_id))
     }
@@ -38,20 +34,12 @@ const CreateCourse = observer(({ show, onHide }) => {
         setShedule(shedule.filter(i => i.shedule_id !== shedule_id))
     }
 
-    const removeSubject = (subject_id) => {
-        setSubject(subject.filter(i => i.subject_id !== subject_id))
-    }
-
     const addModule = () => {
         setModule([...module, { module_id: Date.now(), module_name: '' }])
     }
 
     const addShedule = () => {
         setShedule([...shedule, { shedule_id: Date.now(), shedule_dateofstart: '', shedule_dateoffinish: '' }])
-    }
-
-    const addSubject = () => {
-        setSubject([...subject, { subject_id: Date.now(), subject_name: '' }])
     }
 
 
@@ -64,7 +52,6 @@ const CreateCourse = observer(({ show, onHide }) => {
         formData.append('course_price', `${price}`)
         formData.append('course_module', JSON.stringify(module))
         formData.append('course_shedule', JSON.stringify(shedule))
-        formData.append('module_subject', JSON.stringify(subject))
         createCourse(formData).then(data => onHide())
     }
 
@@ -81,7 +68,7 @@ const CreateCourse = observer(({ show, onHide }) => {
             </Modal.Header>
             <Modal.Body>
                 <Dropdown>
-                    <Dropdown.Toggle>
+                    <Dropdown.Toggle style={{ background: '#E1DFEF', border: 0, color: '#000' }}>
                         {course.selectedType.type_name || "Выберите тип"}
                         <Dropdown.Menu>
                             {course.types.map(type =>
@@ -91,7 +78,7 @@ const CreateCourse = observer(({ show, onHide }) => {
                     </Dropdown.Toggle>
                 </Dropdown>
                 <Dropdown className="mt-2">
-                    <Dropdown.Toggle>
+                    <Dropdown.Toggle style={{ background: '#E1DFEF', border: 0, color: '#000' }}>
                         {course.selectedFormat.format_name || "Выберите тип"}
                         <Dropdown.Menu>
                             {course.formats.map(format =>
@@ -100,25 +87,23 @@ const CreateCourse = observer(({ show, onHide }) => {
                         </Dropdown.Menu>
                     </Dropdown.Toggle>
                 </Dropdown>
-                <p className="mt-2 mb-1">Введите название</p>
+                <p className="mt-4 mb-1" style={{ fontSize: 15, fontWeight: 500 }}>Название</p>
                 <Form.Control
+                    as="textarea" rows={3}
                     value={name}
                     onChange={e => setName(e.target.value)}
-                    placeholder="Введите название "
                 />
-                <p className="mt-2 mb-1"> Введите длительность</p>
+                <p className="mt-2 mb-1" style={{ fontSize: 15, fontWeight: 500 }}> Длительность</p>
                 <Form.Control
                     value={duration}
                     onChange={e => setDuration(Number(e.target.value))}
-                    placeholder="Введите длительность"
                     type="number"
                 />
-                <p className="mt-2 mb-1">Введите стоимость</p>
+                <p className="mt-2 mb-1" style={{ fontSize: 15, fontWeight: 500 }}>Стоимость</p>
                 <Form.Control
                     value={price}
                     onChange={e => setPrice(Number(e.target.value))}
                     className="mt-2"
-                    placeholder="Введите стоимость"
                     type="number"
                 />
                 <hr />
@@ -126,11 +111,11 @@ const CreateCourse = observer(({ show, onHide }) => {
                 {
                     module.map(i =>
                         <Row className="mt-2" key={i.module_id}>
-                            <Col md={4}>
+                            <Col md={9}>
                                 <Form.Control
+                                    as="textarea" rows={3}
                                     value={i.module_name}
                                     onChange={(e) => changeModule('module_name', e.target.value, i.module_id)}
-                                    placeholder="Название"
                                 />
                             </Col>
                             <Col>
@@ -165,7 +150,6 @@ const CreateCourse = observer(({ show, onHide }) => {
                                 <Form.Control
                                     value={i.shedule_dateofstart}
                                     onChange={(e) => changeShedule('shedule_dateofstart', e.target.value, i.shedule_id)}
-                                    placeholder="Введите дату старта"
                                     type="date"
                                 />
                             </Col>
@@ -173,7 +157,6 @@ const CreateCourse = observer(({ show, onHide }) => {
                                 <Form.Control
                                     value={i.shedule_dateoffinish}
                                     onChange={(e) => changeShedule('shedule_dateoffinish', e.target.value, i.shedule_id)}
-                                    placeholder="Введите дату окончания"
                                     type="date"
                                 />
                             </Col>
@@ -187,8 +170,8 @@ const CreateCourse = observer(({ show, onHide }) => {
                 }
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={onHide}>Закрыть</Button>
-                <Button onClick={addCourse}>Добавить</Button>
+                <Button style={{ backgroundColor: '#444AD2', border: 0 }} onClick={onHide}>Закрыть</Button>
+                <Button style={{ backgroundColor: '#444AD2', border: 0 }} onClick={addCourse}>Добавить</Button>
             </Modal.Footer>
         </Modal >
     );

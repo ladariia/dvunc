@@ -52,11 +52,11 @@ const Auth = observer(() => {
                     <div className="d-flex justify-content-between mt-3 pl-3 pr-3">
                         {isLogin ?
                             <div className="d-flex">
-                                Нет аккаунта?&nbsp;<NavLink to={REGISTRATION_ROUTE}>Зарегистрироваться</NavLink>
+                                Нет аккаунта?&nbsp;<NavLink style={{ color: '#444AD2' }} to={REGISTRATION_ROUTE}>Зарегистрироваться</NavLink>
                             </div>
                             :
                             <div className="d-flex">
-                                Есть аккаунт?&nbsp;<NavLink to={LOGIN_ROUTE}>Войти</NavLink>
+                                Есть аккаунт?&nbsp;<NavLink style={{ color: '#444AD2' }} to={LOGIN_ROUTE}>Войти</NavLink>
                             </div>
                         }
                         <Button onClick={click} variant={"dark"}>

@@ -21,13 +21,9 @@ const Courses = observer(() => {
 
     return (
         <Container>
-            <Row className="mt-4">
-                <Col md={2}>
-                    <TypeBar />
-                </Col>
-                <Col md={10}>
-                    <CourseList />
-                </Col>
+            <Row style={{ marginTop: 120 }}>
+                <TypeBar />
+                <CourseList />
             </Row>
         </Container>
     );

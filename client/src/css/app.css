@@ -1,0 +1,13 @@
+.arrow{
+    width: 45px;
+    height: 45px;
+    background-image: url('../img/arrow--light.svg');
+    background-size: contain;
+}
+
+.card:hover .arrow{
+    width: 45px;
+    height: 45px;
+    background-image: url('../img/arrow--dark.svg');
+    background-size: contain;
+}
